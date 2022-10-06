@@ -1,0 +1,94 @@
+{% include './inc/header.liquid' %}
+{% include './inc/sidebar.liquid' %}
+
+      <div class="content-page">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-lg-6">
+               <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                     <div class="header-title">
+                        <h4 class="card-title">Add New SMTP</h4>
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <p class="text-warning">Carefully enter up your smtp details</p>
+                     <form action="">
+                        <div class="form-group">
+                            <input type="text" name="host" id="host" placeholder="host" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="port" id="port" placeholder="port" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <select required name="secured" class="form-control" id="secured">
+                                <option value="false">False</option>
+                                <option value="true">True</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="sm_user" id="sm_user" placeholder="SMTP User Name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="sm_pass" id="sm_pass" placeholder="SMTP Password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">ADD SMTP</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-lg-6">
+               <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                     <div class="header-title">
+                        <h4 class="card-title">SMTP Management</h4>
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <p>Toasts are slightly translucent, too, so they blend over whatever they might appear over. For browsers that support the <code>backdrop-filter</code> CSS property, we’ll also attempt to blur the elements under a toast.</p>
+                     <div class="p-3 bg-dark">
+                        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                           <div class="toast-header">
+                              <svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                                 <rect width="100%" height="100%" fill="#007aff"></rect>
+                              </svg>
+                              <strong class="mr-auto">Bootstrap</strong>
+                              <small>11 mins ago</small>
+                              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                              </button>
+                           </div>
+                           <div class="toast-body">
+                              Hello, world! This is a toast message.
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+         </div>
+      </div>
+      </div>
+    
+{% include './inc/footer.liquid' %}
+
+    <footer class="iq-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="terms-of-service.html">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 text-right">
+                    Copyright 2021 <a href="#">EmailCHIMP</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+   
