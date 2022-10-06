@@ -37,8 +37,8 @@ class IndexController extends BaseController
                     auth: post['password'],
                     urole: "user",
                     uid: uuidv4(),
-                    api_key: "",
-                    public_key: "",
+                    api_key: uuidv4(),
+                    public_key: uuidv4(),
                 });
                 
                 const for_firestore = {
@@ -47,9 +47,10 @@ class IndexController extends BaseController
                     auth: post['password'],
                     urole: "user",
                     uid: user.uid,
-                    api_key: "",
-                    public_key: "",
+                    api_key: user.api_key,
+                    public_key: user.public_key,
                 };
+
                 const securedUser = await base.hashPassword(user.auth);
                 if(!empty(securedUser)){
                     user.auth = securedUser;
@@ -71,6 +72,10 @@ class IndexController extends BaseController
 
     async loginAction(req, res)
     {
+        if(req.method === "POST"){
+            const post = base.sanitizeRequestData(req.body); 
+        }
+
         res.render("index", {
             title: "Welcome to E-Mailer",
             scripts: [
