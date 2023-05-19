@@ -6,6 +6,7 @@ const base = new BaseController();
 const { v4: uuidv4 } = require('uuid');
 
 //
+//const admin = require("firebase-admin");
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 const db = getFirestore();
 
@@ -72,16 +73,63 @@ class IndexController extends BaseController
 
     async loginAction(req, res)
     {
-        if(req.method === "POST"){
-            const post = base.sanitizeRequestData(req.body); 
-        }
+        try {
 
-        res.render("index", {
-            title: "Welcome to E-Mailer",
-            scripts: [
-                "./auth/register.js"
-            ]
-        });
+            if(req.method === "POST"){
+                let userid, errors = {}, response = {};
+                const post = IndexController.sanitizeRequestData(req.body);
+                if(empty(post['email']) || empty(post['password'])){
+                    errors['account'] = "Please enter your email and password correctly !";
+                }
+                else{
+                    const findUser = await db.collection("users").where("email", "==", post['email']).get();
+                    if(findUser.empty) {
+                        errors['account'] = "Invalid email address or password. Confirm details and retry"
+                    }
+                    else{
+                        let userPass = "";
+                        findUser.forEach(doc => {
+                            userPass = doc.data().auth;
+                            userid = doc.id;
+                        });
+                        
+                        if(userPass !== post['password']){
+                            errors['account'] = "Invalid email address or password. Confirm details and retry"
+                        }
+                    }
+                }
+
+                if ( !empty(errors) || empty(userid)) {
+                    return IndexController.sendFailResponse(res, errors);
+                }
+
+                const userSession = {
+                    userid,
+                    loggedIn: true
+                };
+                
+                if (req && req.session && !empty(userSession)) {
+                    req.session.user = userSession;
+                    req.session.save();
+                    console.log("hi");
+                }
+
+                response['redirect_url'] ="/dashboard/smtp";
+				response['msg'] ="User Authenticated";
+
+                return IndexController.sendSuccessResponse(res, response);
+            }
+    
+            res.render("index", {
+                title: "Welcome to E-Mailer",
+                scripts: [
+                    "./auth/register.js"
+                ]
+            });
+        } catch(e) {
+            console.log(e.message);
+            return IndexController.sendFailResponse(res, e.message);
+        }
     }
 }
 
