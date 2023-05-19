@@ -10,6 +10,9 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     return indexController.loginAction(req, res);
 })
+router.post("/", async (req, res) => {
+    return indexController.loginAction(req, res);
+})
 
 router.get("/forgot_password", async (req, res) => {
     res.render("recovery", {title: "Recover your account password"});
