@@ -1,5 +1,5 @@
-<%- include('./inc/header.ejs') %>
-<%- include('./inc/sidebar.ejs') %>
+<%- include('../inc/header.ejs') %>
+<%- include('../inc/sidebar.ejs') %>
 
       <div class="content-page">
       <div class="container-fluid">
@@ -13,7 +13,7 @@
                   </div>
                   <div class="card-body">
                      <p class="text-warning">Carefully enter up your smtp details</p>
-                     <form action="">
+                     <form action="./smtp" method="post" id="smtp-add-form">
                         <div class="form-group">
                             <input type="text" name="host" id="host" placeholder="host" class="form-control" required>
                         </div>
@@ -74,7 +74,7 @@
       </div>
       </div>
     
-      <%- include('./inc/footer.ejs') %>
+      <%- include('../inc/footer.ejs') %>
 
     <footer class="iq-footer">
         <div class="container-fluid">
