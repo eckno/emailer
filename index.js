@@ -7,10 +7,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 
-const Redis = require('./lib/redis');
-const expressSession = require('express-session');
-const RedisStore = require('connect-redis')(expressSession);
-const redis = new Redis();
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const Redis = require('ioredis');
+const redis = new Redis(process.env.REDIS_URL);
 
 initializeApp({credential: cert(SERVICE_ACCOUNT_PATH)});
 //console.log(serv);
@@ -19,6 +19,12 @@ const app = express();
 //Dependecies
 app.set('view engine', 'ejs');
 //
+app.use(session({
+	store: new RedisStore({ client: redis }),
+	secret: process.env.SESSION_KEY,
+	resave: false,
+	saveUninitialized: false
+}));
 //
 app.use(cors());
 app.use(bodyParser.json());

@@ -111,7 +111,6 @@ class IndexController extends BaseController
                 if (req && req.session && !empty(userSession)) {
                     req.session.user = userSession;
                     req.session.save();
-                    console.log("hi");
                 }
 
                 response['redirect_url'] ="/dashboard/smtp";
@@ -128,6 +127,38 @@ class IndexController extends BaseController
             });
         } catch(e) {
             console.log(e.message);
+            return IndexController.sendFailResponse(res, e.message);
+        }
+    }
+
+    async smtpAdd(req, res){
+        try{
+            if(req.method === "POST"){
+                let response = {};
+                const post = IndexController.sanitizeRequestData(req.body);
+                if(!empty(post)){
+                    post['userid'] = req.session.user.userid;
+
+                    const dc = await db.collection("smtps").where("host", "==", post['host']).where("port", "==", post['port']).get();
+                    
+                    if(!dc.empty){
+                        return IndexController.sendFailResponse(res, 'Invalid: Duplicate entries');
+                    }
+                    
+                    const addData = await db.collection("smtps").doc().set(post);
+                    if(!empty(addData) && !empty(addData._writeTime)){
+
+                        response['redirect_url'] ="/dashboard/smtp";
+				        response['msg'] ="Cool !! Smtp added and ready to send with.";
+
+                        return IndexController.sendSuccessResponse(res, response);
+                    }
+                    return IndexController.sendFailResponse(res, 'OOPS!! We encountered an error trying to process your request.');
+                }
+                return IndexController.sendFailResponse(res, 'Invalid form data!!');
+            }
+        }
+        catch (e) {
             return IndexController.sendFailResponse(res, e.message);
         }
     }
